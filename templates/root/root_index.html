@@ -15,14 +15,11 @@
    <p style="color:blue">{{msg}}</p>
   {% endif %}
 
-  <form action="{{url_for('login')}}" method="post">
-  ユーザ名:<input type="text" name="username" value="{{data.user_name if data is defined else ""}}"><br>
-  メールアドレス:<input type="mail" name="mail" value="{{data.mail if data is defined else ""}}"><br>
+  <form action="{{url_for('root.root_login')}}" method="post">
+  ID:<input type="text" name="id" value="{{data.id if data is defined else ""}}"><br>
   パスワード：<input type="password" name="password" value="{{data.password if data is defined else ""}}"><br>
     <button type="submit">ログイン</button>
   </form>
 
-  <a href="{{url_for('register_form')}}">新規登録</a>
-  <a href="{{url_for('root.root_index')}}">管理者</a><br>
 </body>
 </html>
