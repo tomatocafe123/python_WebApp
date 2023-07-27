@@ -40,21 +40,13 @@ def root_toppage():
   if 'user' in session:
     return render_template('root/root_toppage.html') # session があれば mypage.html を表示
   else :
-    return redirect(url_for('root/root_index')) #session がなければログイン画面にリダイレクト 
+    return redirect(url_for('index')) #session がなければログイン画面にリダイレクト 
 
 #session切れの時にログアウト
 @root_bp.route('/logout')
 def logout():
  session.pop('user', None) # session の破棄
  return redirect(url_for('root.root_index')) # ログイン画面にリダイレクト
-
-
-
-
-
-
-
-
 
 
 
@@ -81,6 +73,53 @@ def register_exe():
 
 
 
-#URL
-if __name__ == '__main__':
-    root_bp.run(debug=True)
+
+
+#本の登録のページにとぶ
+@root_bp.route('/book_register')
+def book_register_form():
+ return render_template('root/book_register_form.html')
+
+#本の登録
+@root_bp.route('/book_register_exe', methods=['POST'])
+def book_register_exe():
+  title= request.form.get('title')
+  publisher= request.form.get('publisher')
+  author=request.form.get("author")
+  isbn=request.form.get("isbn")
+  count = root_db.register_book(title,publisher,author,isbn)
+  if count == 1:
+   msg = '登録が完了しました。'
+   return redirect(url_for('root.root_toppage', msg=msg))
+  else:
+   error = '登録に失敗しました。'
+   return render_template('root.book_register_form.html', error=error)
+ 
+ 
+
+@root_bp.route('/book_list')
+def book_root_list():
+  book_list = root_db.get_all_books()
+    # 返すHTMLは templates フォルダ以降のパスを書きます。
+  return render_template('root/book_root_list.html', books=book_list)
+
+
+@root_bp.route('/root_book_search', methods=['POST'])
+def root_book_search():
+  key= request.form.get('title')
+  book_list = root_db.root_book_search(key)
+    # 返すHTMLは templates フォルダ以降のパスを書きます。
+  return render_template('root/book_root_list.html', books=book_list)
+
+
+@root_bp.route('/delete_book', methods=['POST'])
+def delete_book():
+  id= request.form.get('id')
+  count = root_db.delete_book(id)
+  if count == 1:
+   msg = '削除完了しました。'
+   return redirect(url_for('root.root_toppage', msg=msg))
+  else:
+   error = '削除に失敗しました。'
+   return render_template('root/root_toppage.html', error=error)
+  

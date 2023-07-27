@@ -70,3 +70,66 @@ def login(id,password):
   cursor.close()
   connection.close()
  return flg
+
+
+#図書情報登録
+def register_book(title,publisher,author,isbn):
+  sql = 'INSERT INTO py_app_book VALUES (default,%s, %s, %s,%s)'
+  try : # 例外処理
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    cursor.execute(sql, (title,publisher,author,isbn))
+    count = cursor.rowcount # 更新件数を取得
+    connection.commit()
+  except psycopg2.DatabaseError: # Java でいう catch 失敗した時の処理をここに書く
+   count = 0 # 例外が発生したら 0 を return する。
+  finally: # 成功しようが、失敗しようが、close する。
+   cursor.close()
+   connection.close()
+  return count
+
+
+def get_all_books():
+    connection = get_connection()
+    cursor = connection.cursor()
+    sql = "SELECT id,title,publisher,author,isbn FROM py_app_book"
+    
+    cursor.execute(sql)
+    rows = cursor.fetchall()
+    cursor.close()
+    connection.close()
+    return rows
+  
+  
+    
+def root_book_search(key):
+# 接続処理 省略
+ connection = get_connection()
+ cursor = connection.cursor()
+ sql = 'SELECT * FROM py_app_book WHERE title LIKE %s'
+ key = '%' + key + '%'
+ cursor.execute(sql, (key,))
+ rows = cursor.fetchall()
+ cursor.close()
+ connection.close()
+ return rows
+ 
+ 
+ 
+def delete_book(id):
+  sql = 'DELETE FROM py_app_book WHERE id = %s'
+  try : # 例外処理
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    cursor.execute(sql, (id,))
+    count = cursor.rowcount # 更新件数を取得
+    connection.commit()
+  except psycopg2.DatabaseError: # Java でいう catch 失敗した時の処理をここに書く
+   count = 0 # 例外が発生したら 0 を return する。
+  finally: # 成功しようが、失敗しようが、close する。
+   cursor.close()
+   connection.close()
+  return count
+ 
