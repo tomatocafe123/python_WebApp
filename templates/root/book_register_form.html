@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <title>アカウント登録</title>
+    <title>本の登録</title>
     <style>
         .header {
             background-color: olivedrab;
@@ -18,31 +18,30 @@
             padding: 10px;
             z-index: 999;
           }
-      .h1{
+        .h1{
             margin-left:30px;
           }
-
           .form{
             width: 45%;
             height 70%;
             margin-top:150px;
-            margin-left:370px;
+            margin-left:350px;
             margin-right:30px;
             border: 3px solid #9c9c9c;
             border-radius : 10px;
-            padding: 50px;
+            padding: 40px;
+            padding-left:90px;
             box-sizing: border-box;
           }
           .label{
             font-size: 20px;
           }
-    
+        
           .c-form-text {   
             height: 3.0em;
             width: 80%;
             padding: 0 16px;
-            margin-top: 10px;
-            margin-left:20px;
+            margin-top: 5px;
             border-radius: 25px;
             border: none;
             box-shadow: 0 0 0 1px #ccc inset;
@@ -56,36 +55,42 @@
         }
         .button{
             position:relative;
-            top:15px;
-            left:190px;
+            top:10px;
+            left:140px;
             background:3c3c3c;
             padding:5px 10px;
             color:ffffff;
             margin:3px;
           }
-
     </style>
+
 </head>
 <body>
     <div class="container">
         <header class="header">
-          <h1 class="h1">アカウント作成</h1>
+          <h1 class="h1">図書登録</h1>
+          <a href="{{url_for('root.root_toppage')}}">ホームへ</a>
         </header>
+    {% if msg != null %}
+    <p style="color:blue">{{msg}}</p>
+    {% endif %}
     {% if error != null %}
     <p style="color:red">{{error}}</p>
     {% endif %}
     
     <div class="form">
-    <form action="{{url_for('register_exe')}}" method="post">
-    <label class="label" for="num">ユーザー名</label><br>
-    <input type="text" name="username" placeholder="ユーザー名を入力" autocomplete="off"class="c-form-text"><br>
-    <label class="label" for="num">メールアドレス</label><br>
-    <input type="mail" name="mail" placeholder="メールアドレスを入力"autocomplete="off" class="c-form-text"><br>
-    <label class="label" for="num">パスワード</label><br>
-    <input type="password" name="password" placeholder="パスワードを入力" autocomplete="off" class="c-form-text"><br>
+    <form action="{{url_for('root.book_register_exe')}}" method="post">
+      <label class="label" for="num">タイトル</label><br>
+      <input type="text" name="title" class="c-form-text"><br>
+      <label class="label" for="num">出版社</label><br>
+      <input type="text" name="publisher" autocomplete="off" class="c-form-text"><br>
+      <label class="label" for="num">著者</label><br>
+      <input type="text" name="author" autocomplete="off" class="c-form-text"><br>
+      <label class="label" for="num">ISBN</label><br>
+      <input type="text" name="isbn" autocomplete="off" class="c-form-text"><br>
     <button type="submit" class="button">登録</button>
     </form>
-    </div>
+</div>
 
 </body>
 </html>

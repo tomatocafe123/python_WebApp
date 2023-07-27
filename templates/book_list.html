@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>一覧</title>
+    <style>
+        .header {
+            background-color: olivedrab;
+            color: white;
+            width: 100%;
+            height: 80px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            z-index: 999;
+          }
+        .h1{
+            margin-left:30px;
+          }
+          .form1{
+            width: 35%;
+            height 70%;
+            position:relative;
+            top:130px;
+            left:500px;
+            box-sizing: border-box;
+          }
+          .label{
+            font-size: 20px;
+          }
+        
+          .c-form-text {   
+            height: 3.0em;
+            width: 80%;
+            padding: 0 16px;
+            margin-top: 5px;
+            border-radius: 25px;
+            border: none;
+            box-shadow: 0 0 0 1px #ccc inset;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        .c-form-text:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px rgb(33, 150, 243) inset;
+        }
+
+        .button1{
+            position:relative;
+            top:-42px;
+            left:440px;
+            background:3c3c3c;
+            padding:5px 10px;
+            color:ffffff;
+            margin:5px;
+                  }
+        .table{
+            width:50%;
+            position:fixed;
+            top:200px;
+            left:300px;
+          }
+    </style>
+</head>
+<body >
+    <div class="container">
+        <header class="header">
+          <h1 class="h1">図書貸出</h1>
+          <a href="{{url_for('toppage')}}">ホームへ</a>
+        </header>
+  <table class="table" border="1">
+    <thead>
+        <tr>
+            <th>タイトル</th>
+            <th>著者</th>
+            <th>出版社</th>
+            <th>isbn</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books: %}
+        <tr>
+            <td>{{ book[0] }}</td>
+            <td>{{ book[1] }}</td>
+            <td>{{ book[2] }}</td>
+            <td>{{ book[3] }}</td>
+            <td><form action="{{url_for('borrow')}}" method="POST">
+             <input type="hidden" name='title' value={{ book[0] }}>
+             <input type="hidden" name='isbn'  value={{ book[3] }}>
+            <button type="submit">借りる</button></td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+
+    <div class="form1">
+    <form action="{{url_for('search')}}" method="post">
+    検索 : <input type="text" name="title" placeholder="検索するタイトル" class="c-form-text"><br>
+    <button type="submit" class="button1">検索</button>
+    </form>
+    </div>
+    
+</body>
+</html>

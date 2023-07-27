@@ -5,9 +5,77 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
     <title>トップページ</title>
+
+<style>
+  .header {
+    background-color: olivedrab;
+    color: white;
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+  .h1{
+    margin-left:30px;
+  }
+  .out{
+    position:fixed;
+    left:20px;
+  }
+  
+  main {
+    background-color: #f1f1f1;
+    height: 550px;
+    display: flex;
+  }
+  .main {
+    margin: auto;
+  }
+
+
+  .footer {
+    background-color: olivedrab;
+    height: 43px;
+    display: flex;
+  }
+  .footer div {
+    margin: auto;
+  }
+
+</style>
+
+
 </head>
 <body>
-  <h1>トップページ</h1>
+  <div class="container">
+    <header class="header">
+      <h1 class="h1">トップページ</h1>
+      <a href="{{url_for('logout')}}" class="out">ログアウト</a>
+    </header>
 
-</body>
+  {% if msg != null %}
+   <p style="color:blue">{{msg}}</p>
+  {% endif %}
+  {% if error != null %}
+   <p style="color:red">{{error}}</p>
+  {% endif %}
+  
+  <main>
+    <div class="main">
+  <a href="{{url_for('list')}}">本の一覧</a>
+  <a href="{{url_for('borrow_list')}}">借りてる本</a>
+    </div>
+  </main>
+
+
+   <footer class="footer">
+    <div>
+    </div>
+   </footer>
+   
+  </div>
+ </body>
 </html>
